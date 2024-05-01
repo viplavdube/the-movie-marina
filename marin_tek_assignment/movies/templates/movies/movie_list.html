@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movies List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f9;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        label {
+            margin-right: 10px;
+        }
+        select, input[type="text"] {
+            padding: 8px;
+            margin-right: 10px;
+        }
+        button {
+            padding: 8px 16px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        img {
+            height: 100px; /* Fixed to make images look uniform */
+        }
+        h1 {
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <h1>Movies</h1>
+    <form action="" method="get">
+        <label for="genre">Choose a Genre:</label>
+        <select name="genre" id="genre" onchange="this.form.submit()">
+            <option value="">All Genres</option>
+            {% for genre in genre_list %}
+            <option value="{{ genre }}" {% if request.GET.genre == genre %}selected{% endif %}>
+                {{ genre }}
+            </option>
+            {% endfor %}
+        </select>
+        <label for="search">Search by Title:</label>
+        <input type="text" name="search" id="search" value="{{ request.GET.search }}" placeholder="Enter movie title">
+        <button type="submit">Search</button>
+    </form>
+    <table>
+        <tr>
+            <th>Title</th>
+            <th>Poster</th>
+            <th>Genre(s)</th>
+            <th>Rating</th>
+            <th>Year Release</th>
+            <th>Metacritic Rating</th>
+            <th>Runtime</th>
+        </tr>
+        {% for movie in movies %}
+        <tr>
+            <td>{{ movie.title }}</td>
+            <td><img src="{{ movie.poster }}" alt="{{ movie.title }} poster"></td>
+            <td>{{ movie.genres }}</td>
+            <td>{{ movie.rating }}</td>
+            <td>{{ movie.year_release }}</td>
+            <td>{{ movie.metacritic_rating }}</td>
+            <td>{{ movie.runtime }} minutes</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
